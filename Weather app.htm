@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>WEATHERVUE</title>
+</head>
+<style>
+    body{
+        height: 100vh;
+        width: 100%;
+        background-image: url(bg.jpg);
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+    h2, label, p {
+        color: #000000;
+        margin: 8px 0;
+    }
+    
+    input{
+        width: 100%;
+        padding: 8px;
+        border-radius: 10px;
+        margin-top: 20px;
+        border: 1px solid black;
+    }
+    
+    button{
+        width: 100px;
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+        color: rgb(255, 254, 254);
+        background: #000;
+        transition: 0.5s ease;
+    }
+    
+    button:hover{
+        transform: scale(1.5);
+        color: white;
+        
+    }
+    
+    #temp-div p {
+        font-size: 60px;
+        margin-top: -30px;
+    }
+    
+    #weather-info {
+        font-size: 20px;
+    }
+    
+    #weather-icon {
+        width: 200px;
+        height: 200px;
+        margin: 0 auto 10px;
+        margin-bottom: 0;
+        display: none;
+    }
+    
+    
+   
+    #weather-container{
+        background-color: wheat;
+        max-width: 400px;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        border: 1px solid black;
+        box-shadow: 0 4px ;
+        
+    
+    }
+    h3 {
+        color: #000;
+        font-size: 20px;
+        
+        
+    }
+</style>
+<body>
+    <section  id="weather-container">
+    <div>
+        <h2>Weather</h2>
+        <input type="text" id="city" placeholder="Search City">
+        <button onclick="getWeather()">Search</button>
+
+        <img id="weather-icon" alt="Weather Icon">
+        <div id="temp-div"></div>
+        <div id="weather-info"></div>
+       
+    </div>   
+    </section>
+    <script>
+        function getWeather() {
+            const apiKey = '45a582346563499d452cf1d3d8847915';
+            const city = document.getElementById('city').value;
+        
+            if (!city) {
+                alert('Please enter city');
+                return;
+            }
+        
+            const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
+            const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}`;
+        
+            fetch(currentWeatherUrl)
+                .then(response => response.json())
+                .then(data => {
+                    displayWeather(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching current data:', error);
+                    alert('Error fetching current data');
+                });
+        
+            
+        }
+        
+        function displayWeather(data) {
+            const tempDivInfo = document.getElementById('temp-div');
+            const weatherInfoDiv = document.getElementById('weather-info');
+            const weatherIcon = document.getElementById('weather-icon');
+           
+        
+            // clear old data
+        
+            weatherInfoDiv.innerHTML = '';
+          
+            tempDivInfo.innerHTML = '';
+        
+            if (data.cod === '404') {
+                weatherInfoDiv.innerHTML = `<p>${data.message}</p>`;
+            } else {
+                const cityName = data.name;
+                const temperature = Math.round(data.main.temp - 273.15);
+                const description = data.weather[0].description;
+                const iconId = data.weather[0].icon;
+                const iconUrl = `http://openweathermap.org/img/wn/${iconId}@4x.png`;
+        
+                const temperatureHTML = `<p>${temperature}°C</p>`;
+                const weatherHTML = `<p>${cityName}</p> <p>${description}</p>`;
+        
+                tempDivInfo.innerHTML = temperatureHTML;
+                weatherInfoDiv.innerHTML = weatherHTML;
+                weatherIcon.src = iconUrl;
+                weatherIcon.alt = description;
+        
+                showImage();
+            }
+        }
+        
+       
+        
+        function showImage() {
+            const weatherIcon = document.getElementById('weather-icon');
+            weatherIcon.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
