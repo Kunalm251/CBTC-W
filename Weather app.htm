@@ -19,7 +19,7 @@
         display: flex;
     }
     h2, label, p {
-        color: #000000;
+        color: #ffffff;
         margin: 8px 0;
     }
     
@@ -29,6 +29,12 @@
         border-radius: 10px;
         margin-top: 20px;
         border: 1px solid black;
+        transition: 0.5s ease;
+    }
+    input:hover{
+        transform: scale(1.5);
+        background: rgb(42, 41, 41);
+        color: aliceblue;
     }
     
     button{
@@ -39,14 +45,14 @@
         border: none;
         cursor: pointer;
         font-size: 15px;
-        color: rgb(255, 254, 254);
-        background: #000;
+        color: rgb(0, 0, 0);
+        background: #ffffff;
         transition: 0.5s ease;
     }
     
     button:hover{
         transform: scale(1.5);
-        color: white;
+        color: rgb(0, 0, 0);
         
     }
     
@@ -70,13 +76,13 @@
     
    
     #weather-container{
-        background-color: wheat;
+        background-color: transparent;
         max-width: 400px;
         padding: 20px;
         border-radius: 15px;
         text-align: center;
         backdrop-filter: blur(10px);
-        border: 1px solid black;
+        border: 1px solid rgb(255, 255, 255);
         box-shadow: 0 4px ;
         
     
